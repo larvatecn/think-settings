@@ -7,7 +7,7 @@
 
 namespace larva\settings;
 
-use larva\settings\contracts\SettingsRepository;
+use larva\settings\contract\SettingsRepository;
 
 /**
  * 服务提供者

@@ -7,7 +7,7 @@
 
 namespace larva\settings;
 
-use larva\settings\contracts\SettingsRepository;
+use larva\settings\contract\SettingsRepository;
 use think\App;
 use think\Collection;
 use think\facade\Cache;

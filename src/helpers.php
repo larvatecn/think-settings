@@ -5,7 +5,7 @@
  * @link http://www.larva.com.cn/
  */
 
-use larva\settings\contracts\SettingsRepository;
+use larva\settings\contract\SettingsRepository;
 
 if (!function_exists('settings')) {
     /**

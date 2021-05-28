@@ -7,7 +7,7 @@
 
 namespace larva\settings\facade;
 
-use larva\settings\contracts\SettingsRepository;
+use larva\settings\contract\SettingsRepository;
 
 class Settings extends \think\Facade
 {
