@@ -5,18 +5,20 @@
  * @link http://www.larva.com.cn/
  */
 
+declare (strict_types = 1);
+
 namespace larva\settings;
 
+use Exception;
 use larva\settings\contract\SettingsRepository;
 use think\App;
 use think\Collection;
 use think\facade\Cache;
+use think\facade\Log;
 use think\helper\Arr;
 
 /**
- * Class SettingsManager
- * @author Tongle Xu <xutongle@msn.com>
- * @date 2021/5/28
+ * 配置管理
  */
 class SettingsManager implements SettingsRepository
 {
@@ -47,19 +49,27 @@ class SettingsManager implements SettingsRepository
 
     /**
      * 获取所有的设置
+     * @param bool $reload
      * @return Collection
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\Exception
      */
-    public function all($reload = false)
+    public function all(bool $reload = false): Collection
     {
         if (($settings = Cache::get(static::CACHE_TAG)) == null || $reload) {
             $settings = [];
-            SettingModel::select()->each(function ($setting) use (&$settings) {
-                Arr::set($settings, $setting['key'], $setting['value']);
-            });
-            Cache::set(static::CACHE_TAG, $settings, 7200);
+            try {
+                SettingModel::select()->each(function ($setting) use (&$settings) {
+                    Arr::set($settings, $setting['key'], $setting['value']);
+                });
+                Cache::set(static::CACHE_TAG, $settings, 7200);
+            } catch (Exception $exception) {
+                if ($this->app->isDebug()) {
+                    throw new \think\Exception('配置读取错误', 500, $exception);
+                } else {
+                    Log::error('配置读取错误：' . $exception->getMessage());
+                    Log::error('配置读取错误通常情况是 settings 数据表不存在，或者表结构不符合才会发生。当然如果数据库连接不上也是可能的。');
+                }
+            }
         }
 
         $this->settings = collect($settings);
@@ -71,11 +81,9 @@ class SettingsManager implements SettingsRepository
      *
      * @param string $key
      * @return bool
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\Exception
      */
-    public function has($key)
+    public function has(string $key): bool
     {
         return Arr::has($this->all(), $key);
     }
@@ -83,13 +91,11 @@ class SettingsManager implements SettingsRepository
     /**
      * 获取设置
      * @param string $key
-     * @param null $default
+     * @param string|null $default
      * @return string
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\Exception
      */
-    public function get($key, $default = null)
+    public function get(string $key, string $default = null): string
     {
         return Arr::get($this->all(), $key, $default);
     }
@@ -98,11 +104,9 @@ class SettingsManager implements SettingsRepository
      * 获取设置组
      * @param string $section
      * @return array
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\Exception
      */
-    public function section($section)
+    public function section(string $section):array
     {
         return Arr::get($this->all(), $section);
     }
@@ -112,11 +116,9 @@ class SettingsManager implements SettingsRepository
      * @param string $key
      * @param string $value
      * @return bool
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\Exception
      */
-    public function set($key, $value)
+    public function set(string $key, string $value):bool
     {
         if (is_array($value)) {
             return false;
@@ -136,11 +138,9 @@ class SettingsManager implements SettingsRepository
      * 删除设置
      * @param string $key
      * @return true
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\Exception
      */
-    public function forge($key)
+    public function forge(string $key):bool
     {
         SettingModel::where('key', $key)->delete();
         $this->all(true);//重载

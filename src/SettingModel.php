@@ -5,6 +5,8 @@
  * @link http://www.larva.com.cn/
  */
 
+declare (strict_types = 1);
+
 namespace larva\settings;
 
 use think\Model;
@@ -13,10 +15,10 @@ use think\Model;
  * @property int $id
  * @property string $key
  * @property string $value
- *
  */
 class SettingModel extends Model
 {
 
     protected $name = 'settings';
+
 }

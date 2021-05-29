@@ -5,11 +5,17 @@
  * @link http://www.larva.com.cn/
  */
 
+declare (strict_types = 1);
+
 namespace larva\settings\facade;
 
 use larva\settings\contract\SettingsRepository;
+use think\Facade;
 
-class Settings extends \think\Facade
+/**
+ * Settings 门面
+ */
+class Settings extends Facade
 {
     /**
      * @return string

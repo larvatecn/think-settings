@@ -5,6 +5,8 @@
  * @link http://www.larva.com.cn/
  */
 
+declare (strict_types = 1);
+
 namespace larva\settings;
 
 use larva\settings\contract\SettingsRepository;

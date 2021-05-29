@@ -4,17 +4,24 @@
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
  * @link http://www.larva.com.cn/
  */
+
+declare (strict_types = 1);
+
 namespace larva\settings\contract;
 
 use think\Collection;
 
+/**
+ * 配置仓库接口
+ */
 interface SettingsRepository
 {
     /**
      * 获取所有的设置
+     * @param bool $reload
      * @return Collection
      */
-    public function all($reload = false);
+    public function all(bool $reload = false): Collection;
 
     /**
      * 指定的设置是否存在
@@ -22,22 +29,22 @@ interface SettingsRepository
      * @param string $key
      * @return bool
      */
-    public function has($key);
+    public function has(string $key): bool;
 
     /**
      * 获取设置
      * @param string $key
-     * @param string $default
+     * @param string|null $default
      * @return string
      */
-    public function get($key, $default = null);
+    public function get(string $key, string $default = null): string;
 
     /**
      * 获取设置组
      * @param string $section
      * @return array
      */
-    public function section($section);
+    public function section(string $section): array;
 
     /**
      * 保存设置
@@ -45,12 +52,12 @@ interface SettingsRepository
      * @param string $value
      * @return bool
      */
-    public function set($key, $value);
+    public function set(string $key, string $value): bool;
 
     /**
      * 删除设置
      * @param string $key
-     * @return mixed
+     * @return bool
      */
-    public function forge($key);
+    public function forge(string $key): bool;
 }

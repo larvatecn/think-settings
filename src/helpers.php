@@ -5,6 +5,8 @@
  * @link http://www.larva.com.cn/
  */
 
+declare (strict_types = 1);
+
 use larva\settings\contract\SettingsRepository;
 
 if (!function_exists('settings')) {
