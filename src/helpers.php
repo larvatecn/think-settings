@@ -5,7 +5,7 @@
  * @link http://www.larva.com.cn/
  */
 
-declare (strict_types = 1);
+declare (strict_types=1);
 
 use larva\settings\contract\SettingsRepository;
 
@@ -14,10 +14,10 @@ if (!function_exists('settings')) {
      * Get setting value or object.
      *
      * @param string $key
-     * @param string|null $default
+     * @param mixed|null $default
      * @return SettingsRepository|mixed
      */
-    function settings(string $key = '', string $default = null)
+    function settings(string $key = '', $default = null)
     {
         if (empty($key)) {
             return app()->make(SettingsRepository::class);

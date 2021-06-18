@@ -91,11 +91,11 @@ class SettingsManager implements SettingsRepository
     /**
      * 获取设置
      * @param string $key
-     * @param string|null $default
+     * @param mixed|null $default
      * @return string
      * @throws \think\Exception
      */
-    public function get(string $key, string $default = null): string
+    public function get(string $key, $default = null): string
     {
         return Arr::get($this->all(), $key, $default);
     }
