@@ -5,7 +5,7 @@
  * @link http://www.larva.com.cn/
  */
 
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace larva\settings\contract;
 
@@ -34,10 +34,10 @@ interface SettingsRepository
     /**
      * 获取设置
      * @param string $key
-     * @param string|null $default
+     * @param mixed|null $default
      * @return string
      */
-    public function get(string $key, string $default = null): string;
+    public function get(string $key, $default = null): string;
 
     /**
      * 获取设置组
