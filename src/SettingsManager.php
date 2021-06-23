@@ -59,7 +59,7 @@ class SettingsManager implements SettingsRepository
             $settings = [];
             try {
                 SettingModel::select()->each(function ($setting) use (&$settings) {
-                    switch ($settings['cast_type']) {
+                    switch ($setting['cast_type']) {
                         case 'integer':
                             $value = (int) $setting['value'];
                             break;
