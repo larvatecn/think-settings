@@ -5,7 +5,7 @@
  * @link http://www.larva.com.cn/
  */
 
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace larva\settings;
 
@@ -61,18 +61,18 @@ class SettingsManager implements SettingsRepository
                 SettingModel::select()->each(function ($setting) use (&$settings) {
                     switch ($setting['cast_type']) {
                         case 'integer':
-                            $value = (int) $setting['value'];
+                            $value = (int)$setting['value'];
                             break;
                         case 'float':
                             if (empty($param)) {
-                                $value = (float) $setting['value'];
+                                $value = (float)$setting['value'];
                             } else {
-                                $value = (float) number_format($setting['value'], (int) $param, '.', '');
+                                $value = (float)number_format($setting['value'], (int)$param, '.', '');
                             }
                             break;
-                        case 'bool':
                         case 'boolean':
-                            $value = (bool) $setting['value'];
+                        case 'bool':
+                            $value = (bool)$setting['value'];
                             break;
                         default:
                             $value = $setting['value'];
@@ -124,7 +124,7 @@ class SettingsManager implements SettingsRepository
      * @return array
      * @throws \think\Exception
      */
-    public function section(string $section):array
+    public function section(string $section): array
     {
         return Arr::get($this->all(), $section);
     }
@@ -136,7 +136,7 @@ class SettingsManager implements SettingsRepository
      * @return bool
      * @throws \think\Exception
      */
-    public function set(string $key, string $value):bool
+    public function set(string $key, string $value, string $cast_type = 'string'): bool
     {
         if (is_array($value)) {
             return false;
@@ -144,9 +144,9 @@ class SettingsManager implements SettingsRepository
         //写库
         $setting = SettingModel::where('key', $key)->find();
         if ($setting != null) {
-            $setting->save(compact('value'));
+            $setting->save(compact('value', 'cast_type'));
         } else {
-            SettingModel::create(compact('key', 'value'));
+            SettingModel::create(compact('key', 'value', 'cast_type'));
         }
         $this->all(true);//重载
         return true;
@@ -158,7 +158,7 @@ class SettingsManager implements SettingsRepository
      * @return true
      * @throws \think\Exception
      */
-    public function forge(string $key):bool
+    public function forge(string $key): bool
     {
         SettingModel::where('key', $key)->delete();
         $this->all(true);//重载

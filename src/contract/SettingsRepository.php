@@ -50,9 +50,10 @@ interface SettingsRepository
      * 保存设置
      * @param string $key
      * @param string $value
+     * @param string $cast_type
      * @return bool
      */
-    public function set(string $key, string $value): bool;
+    public function set(string $key, string $value, string $cast_type = 'string'): bool;
 
     /**
      * 删除设置
