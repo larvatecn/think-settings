@@ -32,6 +32,8 @@ class CreateSettingsTable extends Migrator
         $table->addColumn(Column::bigInteger('id')->setUnsigned()->setUnique()->setIdentity(true)->setNull(false)->setComment('ID'))
             ->addColumn(Column::string('key')->setUnsigned()->setComment('Key'))
             ->addColumn(Column::text('value')->setNullable()->setComment('Value'))
+            ->addColumn(Column::string('cast_type')->setLimit(20)->setComment('变量类型'))
+            ->addColumn(Column::json('options')->setNullable()->setComment('配置参数'))
             ->addColumn(Column::timestamp('updated_at')->setDefault('CURRENT_TIMESTAMP')->setComment('更新时间'))
             ->create();
     }

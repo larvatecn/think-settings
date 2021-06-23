@@ -59,7 +59,24 @@ class SettingsManager implements SettingsRepository
             $settings = [];
             try {
                 SettingModel::select()->each(function ($setting) use (&$settings) {
-                    Arr::set($settings, $setting['key'], $setting['value']);
+                    switch ($settings['cast_type']) {
+                        case 'integer':
+                            $value = (int) $setting['value'];
+                            break;
+                        case 'float':
+                            if (empty($param)) {
+                                $value = (float) $setting['value'];
+                            } else {
+                                $value = (float) number_format($setting['value'], (int) $param, '.', '');
+                            }
+                            break;
+                        case 'boolean':
+                            $value = (bool) $setting['value'];
+                            break;
+                        default:
+                            $value = $setting['value'];
+                    }
+                    Arr::set($settings, $setting['key'], $value);
                 });
                 Cache::set(static::CACHE_TAG, $settings, 7200);
             } catch (Exception $exception) {
