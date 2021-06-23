@@ -35,9 +35,9 @@ interface SettingsRepository
      * 获取设置
      * @param string $key
      * @param mixed|null $default
-     * @return string
+     * @return mixed
      */
-    public function get(string $key, $default = null): string;
+    public function get(string $key, $default = null);
 
     /**
      * 获取设置组

@@ -70,6 +70,7 @@ class SettingsManager implements SettingsRepository
                                 $value = (float) number_format($setting['value'], (int) $param, '.', '');
                             }
                             break;
+                        case 'bool':
                         case 'boolean':
                             $value = (bool) $setting['value'];
                             break;
@@ -109,10 +110,10 @@ class SettingsManager implements SettingsRepository
      * 获取设置
      * @param string $key
      * @param mixed|null $default
-     * @return string
+     * @return mixed
      * @throws \think\Exception
      */
-    public function get(string $key, $default = null): string
+    public function get(string $key, $default = null)
     {
         return Arr::get($this->all(), $key, $default);
     }
