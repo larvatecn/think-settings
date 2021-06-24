@@ -14,14 +14,7 @@ composer require larva/think-settings -vv
 
 ## 配置
 
-这个模块无需配置，但是由于 thinkphp 没有自带的发布资源的接口，所以你需要自建一个数据表，`settings` （自行搞定你的表前缀，本扩展用的是模型连接的数据库，所以可以支持表前缀）；
-
-| 字段        | 类型   |  描述  |
-| --------   | -----:  | :----:  |
-| id      | int   |   自增主键     |
-| key        |   string(100)   |   配置项   |
-| value        |    text    |  配置值  |
-| updated_at        |    datetime    |  更新时间  |
+复制 'vendor/larva/think-settings/database/migrations' 文件夹下的迁移文件到你的迁移文件目录后执行迁移即可。
 
 ## 使用
 ```php
@@ -29,6 +22,7 @@ composer require larva/think-settings -vv
 
 \larva\settings\facade\Settings::get('abv');//获取
 \larva\settings\facade\settings::set('abv','123456');//设置
+\larva\settings\facade\settings::set('abv','1','bool');//设置 bool 类型
 
 \larva\settings\facade\settings::set('aliyun.appid','123456');//设置配置组
 \larva\settings\facade\Settings::get('aliyun.appid');//获取配置组里的
