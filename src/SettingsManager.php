@@ -132,11 +132,14 @@ class SettingsManager implements SettingsRepository
     /**
      * 保存设置
      * @param string $key
-     * @param string $value
+     * @param mixed $value
+     * @param string $cast_type
      * @return bool
-     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
      */
-    public function set(string $key, string $value, string $cast_type = 'string'): bool
+    public function set(string $key, $value, string $cast_type = 'string'): bool
     {
         if (is_array($value)) {
             return false;
