@@ -65,11 +65,7 @@ class SettingsManager implements SettingsRepository
                             $value = (int)$setting['value'];
                             break;
                         case 'float':
-                            if (empty($param)) {
-                                $value = (float)$setting['value'];
-                            } else {
-                                $value = (float)number_format($setting['value'], (int)$param, '.', '');
-                            }
+                            $value = (float)$setting['value'];
                             break;
                         case 'boolean':
                         case 'bool':
@@ -86,7 +82,7 @@ class SettingsManager implements SettingsRepository
                     throw new \think\Exception('配置读取错误', 500, $exception);
                 } else {
                     Log::error('配置读取错误：' . $exception->getMessage());
-                    Log::error('配置读取错误通常情况是 settings 数据表不存在，或者表结构不符合才会发生。当然如果数据库连接不上也是可能的。');
+                    Log::error('配置读取错误通常情况是 settings 数据表不存在，或者表结构不符合才会发生。');
                 }
             }
         }
@@ -147,7 +143,7 @@ class SettingsManager implements SettingsRepository
         }
         //写库
         $setting = SettingModel::where('key', $key)->find();
-        if ($setting != null) {
+        if ($setting) {
             $setting->save(compact('value', 'cast_type'));
         } else {
             SettingModel::create(compact('key', 'value', 'cast_type'));
