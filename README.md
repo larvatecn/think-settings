@@ -14,7 +14,7 @@ composer require larva/think-settings -vv
 
 ## 配置
 
-复制 'vendor/larva/think-settings/database/migrations' 文件夹下的迁移文件到你的迁移文件目录后执行迁移即可。
+复制 `vendor/larva/think-settings/database/migrations` 文件夹下的迁移文件到你的迁移文件目录后执行迁移即可。
 
 ## 使用
 ```php
