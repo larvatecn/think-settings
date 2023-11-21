@@ -1,6 +1,6 @@
 # think-settings
 
-适用于 ThinkPHP 6 的设置扩展，移植 https://github.com/larvatecn/laravel-settings
+适用于 ThinkPHP 6/8 的设置扩展，移植 https://github.com/larvatecn/laravel-settings
 
 [![Packagist](https://img.shields.io/packagist/l/larva/think-settings.svg?maxAge=2592000)](https://packagist.org/packages/larva/think-settings)
 [![Total Downloads](https://img.shields.io/packagist/dt/larva/think-settings.svg?style=flat-square)](https://packagist.org/packages/larva/think-settings)
