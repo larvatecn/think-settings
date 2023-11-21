@@ -1,9 +1,4 @@
 <?php
-/**
- * This is NOT a freeware, use is subject to license terms
- * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
- * @link http://www.larva.com.cn/
- */
 
 declare (strict_types=1);
 
@@ -32,7 +27,7 @@ class SettingsManager implements SettingsRepository
     protected $app;
 
     /**
-     * @var Collection
+     * @var Collection|null
      */
     protected $settings = null;
 
@@ -59,21 +54,12 @@ class SettingsManager implements SettingsRepository
             $settings = [];
             try {
                 SettingModel::select()->each(function ($setting) use (&$settings) {
-                    switch ($setting['cast_type']) {
-                        case 'int':
-                        case 'integer':
-                            $value = (int)$setting['value'];
-                            break;
-                        case 'float':
-                            $value = (float)$setting['value'];
-                            break;
-                        case 'boolean':
-                        case 'bool':
-                            $value = (bool)$setting['value'];
-                            break;
-                        default:
-                            $value = $setting['value'];
-                    }
+                    $value = match ($setting['cast_type']) {
+                        'int', 'integer' => (int)$setting['value'],
+                        'float' => (float)$setting['value'],
+                        'boolean', 'bool' => (bool)$setting['value'],
+                        default => $setting['value'],
+                    };
                     Arr::set($settings, $setting['key'], $value);
                 });
                 Cache::set(static::CACHE_TAG, $settings, 7200);
@@ -132,9 +118,6 @@ class SettingsManager implements SettingsRepository
      * @param mixed $value
      * @param string $cast_type
      * @return bool
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
      */
     public function set(string $key, $value, string $cast_type = 'string'): bool
     {

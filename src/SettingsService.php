@@ -1,9 +1,4 @@
 <?php
-/**
- * This is NOT a freeware, use is subject to license terms
- * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
- * @link http://www.larva.com.cn/
- */
 
 declare (strict_types = 1);
 
@@ -21,7 +16,7 @@ class SettingsService extends \think\Service
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->bind(SettingsRepository::class, function () {
             return new SettingsManager($this->app);
